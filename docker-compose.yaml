@@ -2,7 +2,7 @@ version: '3'
 # Specifies the version of Docker Compose file format being used.
 
 services:
-  # Configuration for the tech-app service
+  # Configuration for the last-app service
   last-app:
     build:
       context: .
