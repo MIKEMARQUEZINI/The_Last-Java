@@ -1,4 +1,4 @@
-package prosper.thelast.DTO;
+package prosper.thelast.DTO.Orders;
 
 public class OrdersDTO {
     private String id;
