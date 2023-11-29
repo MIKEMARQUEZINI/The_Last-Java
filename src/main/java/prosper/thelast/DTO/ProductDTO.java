@@ -1,21 +1,10 @@
-package prosper.thelast.model;
+package prosper.thelast.DTO;
 
-import org.springframework.data.mongodb.core.mapping.Document;
-
-@Document
-public class Produto {
+public class ProductDTO {
     private String id;
     private String name;
     private String descriptions;
     private float price;
-
-    @Override
-    public String toString(){
-        return "Product{" +
-                "name:'" + name + '\'' +
-                ", descriptions:'" + descriptions + '\'' +
-                ", price:" + price + '}';
-    }
 
     public String getId() {
         return id;
