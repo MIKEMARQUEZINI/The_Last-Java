@@ -2,6 +2,7 @@ package prosper.thelast.service;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import prosper.thelast.DTO.Product.ProductDTO;
 import prosper.thelast.model.Product;
 import prosper.thelast.repository.ProductRepository;
@@ -10,6 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 
+@Service
 public class ProductService {
     private final ProductRepository productRepository;
     private ModelMapper modelMapper= new ModelMapper();
