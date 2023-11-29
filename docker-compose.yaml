@@ -1,0 +1,38 @@
+version: '3'
+# Specifies the version of Docker Compose file format being used.
+
+services:
+  # Configuration for the tech-app service
+  tech-app:
+    build:
+      context: .
+      # Specifies the build context as the current directory (where the Dockerfile is located).
+    ports:
+      - "8383:8383"
+      # Maps port 8383 on the host to port 8383 on the container.
+    depends_on:
+      - mongo_db
+      - rabbitmq
+      # Specifies that the 'tech-app' service depends on the 'mongo_db' and 'rabbitmq' services.
+
+  # Configuration for the mongo_db service
+  mongo_db:
+    image: mongo:latest
+    # Specifies the use of the latest version of the official MongoDB image from Docker Hub.
+    restart: always
+    # Configures the service to restart always (even if manually stopped).
+    ports:
+      - "27017:27017"
+      # Maps port 27017 on the host to port 27017 on the container.
+
+  # Configuration for the rabbitmq service
+  rabbitmq:
+    image: "rabbitmq:management"
+    # Specifies the use of the RabbitMQ image with the management plugin from Docker Hub.
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+      # Maps port 5672 and 15672 on the host to the corresponding ports on the RabbitMQ container.
+    environment:
+      RABBITMQ_ERLANG_COOKIE: "ffffffff"
+      # Sets the Erlang cookie for RabbitMQ to "ffffffff".
