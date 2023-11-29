@@ -3,7 +3,7 @@ version: '3'
 
 services:
   # Configuration for the tech-app service
-  tech-app:
+  last-app:
     build:
       context: .
       # Specifies the build context as the current directory (where the Dockerfile is located).
