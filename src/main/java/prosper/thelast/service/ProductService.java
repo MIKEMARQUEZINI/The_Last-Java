@@ -1,20 +1,21 @@
 package prosper.thelast.service;
 
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import prosper.thelast.DTO.Product.ProductDTO;
 import prosper.thelast.model.Product;
 import prosper.thelast.repository.ProductRepository;
 
-import java.util.List;
-import java.util.Optional;
-
-
 @Service
 public class ProductService {
     private final ProductRepository productRepository;
-    private ModelMapper modelMapper= new ModelMapper();
+    private ModelMapper modelMapper = new ModelMapper();
 
     @Autowired
     public ProductService(ProductRepository productRepository) {
@@ -31,7 +32,8 @@ public class ProductService {
         return modelMapper.map(product, ProductDTO.class);
     }
 
-    // Method to save a ProductDTO, converting it to a Product entity and then converting the result back to a ProductDTO
+    // Method to save a ProductDTO, converting it to a Product entity and then
+    // converting the result back to a ProductDTO
     public ProductDTO saveProduct(ProductDTO productDTO) {
         Product product = convertDTO(productDTO);
         return convertProduct(productRepository.save(product));
@@ -46,4 +48,13 @@ public class ProductService {
     public List<Product> findAll() {
         return productRepository.findAll();
     }
+
+    public List<ProductDTO> searchName(String name) {
+        List<Product> listProductName = productRepository.findByName(name);
+        List<ProductDTO> listDTO = listProductName.stream()
+                .map(source -> modelMapper.map(source, ProductDTO.class))
+                .collect(Collectors.toList());
+        return listDTO;
+    }
+
 }
