@@ -1,6 +1,5 @@
 version: '3'
 # Specifies the version of Docker Compose file format being used.
-
 services:
   # Configuration for the last-app service
   last-app:
@@ -8,7 +7,7 @@ services:
       context: .
       # Specifies the build context as the current directory (where the Dockerfile is located).
     ports:
-      - "8383:8383"
+      - "8080:8080"
       # Maps port 8383 on the host to port 8383 on the container.
     depends_on:
       - mongo_db
