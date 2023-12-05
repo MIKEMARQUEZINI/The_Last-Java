@@ -5,7 +5,7 @@ import prosper.thelast.model.Orders;
 
 public class ConverterOrdersDTO {
     private ModelMapper modelMapper = new ModelMapper();
-    public OrdersDTO convertDTO(Orders productName){
-        return modelMapper.map(productName, OrdersDTO.class);
+    public OrdersDTO convertDTO(Orders orders){
+        return modelMapper.map(orders, OrdersDTO.class);
     }
 }

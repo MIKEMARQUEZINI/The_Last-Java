@@ -1,10 +1,10 @@
 package prosper.thelast.repository;
 
+import java.util.List;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import prosper.thelast.model.Orders;
 
-import java.util.List;
 
 public interface OrdersRepository extends MongoRepository<Orders, String > {
-    List<Orders> findbyOrders(String productName);
+    List<Orders> findByProductName(String productName);
 }

@@ -51,10 +51,10 @@ public class ProductService {
 
     public List<ProductDTO> searchName(String name) {
         List<Product> listProductName = productRepository.findByName(name);
-        List<ProductDTO> listDTO = listProductName.stream()
+        List<ProductDTO> listProductDTO = listProductName.stream()
                 .map(source -> modelMapper.map(source, ProductDTO.class))
                 .collect(Collectors.toList());
-        return listDTO;
+        return listProductDTO;
     }
 
 }

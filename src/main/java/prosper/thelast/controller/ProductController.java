@@ -30,12 +30,7 @@ public class ProductController {
     public List<Product> findAll() {
         return productService.findAll();
     }
-
-    @PostMapping
-    public ProductDTO createProduct(@RequestBody ProductDTO product) {
-        return productService.saveProduct(product);
-    }
-
+    
     @GetMapping("/find/{name}")
     public ResponseEntity<List<ProductDTO>> findProducts(@PathVariable String name) {
         List<ProductDTO> product = productService.searchName(name);
@@ -45,5 +40,11 @@ public class ProductController {
             return ResponseEntity.notFound().build();
         }
     }
+    
+    @PostMapping
+    public ProductDTO createProduct(@RequestBody ProductDTO product) {
+        return productService.saveProduct(product);
+    }
+
 
 }
