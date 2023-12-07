@@ -47,7 +47,7 @@ docker run -d -p 27017:27017 --name meumongo mongo
 To build and run the application using Docker, execute the following commands:
 `Remove existing image (if any), build a new image, and run the container`
 ```bash
-docker image rm -f the-last-image; docker build -t the-last-image . ; docker run -d -p 8383:8383 the-last-image
+docker image rm -f the-last-image; docker build -t the-last-image . ; docker run -d -p 8080:8080 the-last-image
 ```
 
 ## Steps to Execute via Docker Compose
