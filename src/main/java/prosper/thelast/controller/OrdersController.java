@@ -1,19 +1,17 @@
 package prosper.thelast.controller;
 
-import java.util.List;
-
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.util.CollectionUtils;
+import org.springframework.web.bind.annotation.*;
 
 import prosper.thelast.DTO.Orders.OrdersDTO;
 import prosper.thelast.model.Orders;
 import prosper.thelast.service.OrderService;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/orders")
@@ -31,10 +29,10 @@ public class OrdersController {
         return orderService.findAll();
     }
 
-    @GetMapping("/find/{productName}")
+    @GetMapping("/search/{productName}")
     public ResponseEntity<List<OrdersDTO>> findOrders(@PathVariable String productName) {
         List<OrdersDTO> orders = orderService.searchName(productName);
-        if (orders != null) {
+        if (!CollectionUtils.isEmpty(orders)) {
             return ResponseEntity.ok(orders);
         } else {
             return ResponseEntity.notFound().build();
@@ -42,8 +40,32 @@ public class OrdersController {
     }
 
     @PostMapping
-    public OrdersDTO createOrders(@RequestBody OrdersDTO order) {
-        return orderService.saveOrders(order);
+    public ResponseEntity<OrdersDTO> createOrders(@RequestBody @Valid
+                                                      OrdersDTO order) {
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(orderService.saveOrders(order));
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<OrdersDTO> updateOrders(@PathVariable String id,
+                                                    @RequestBody OrdersDTO ordersDTO){
+        OrdersDTO ordersUpdated = orderService.updateOrders
+                (id, ordersDTO);
+        if(ordersUpdated != null){
+            return new ResponseEntity<>(ordersUpdated, HttpStatus.OK);
+        }else{
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteOrders(@PathVariable String id){
+        boolean deleted =  orderService.deleteOrders(id);
+        if(deleted){
+            return ResponseEntity.ok("Successfully deleted");
+        }else{
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Not found, try again with another Orders!");
+        }
     }
 
 }

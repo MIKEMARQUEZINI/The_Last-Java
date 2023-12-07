@@ -8,7 +8,9 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import prosper.thelast.DTO.Orders.OrdersDTO;
+import prosper.thelast.DTO.Product.ProductDTO;
 import prosper.thelast.model.Orders;
+import prosper.thelast.model.Product;
 import prosper.thelast.repository.OrdersRepository;
 
 @Service
@@ -48,5 +50,31 @@ public class OrderService {
                 .map(source -> modelMapper.map(source, OrdersDTO.class))
                 .collect(Collectors.toList());
         return listOrdersDTO;
+    }
+
+    public OrdersDTO updateOrders(String id, OrdersDTO ordersDTO) {
+        Orders ordersExists = ordersRepository.findById(id).
+                orElse(null);
+        if(ordersExists != null){
+            ordersExists.setProductName(ordersDTO.getProductName());
+            ordersExists.setPointSales(ordersDTO.getPointSales());
+            ordersExists.setQuantity(ordersDTO.getQuantity());
+
+            return convertOrders(ordersRepository.save(ordersExists));
+        } else {
+            return null;
+        }
+
+    }
+
+    public boolean deleteOrders(String id) {
+        Optional<Orders> ordersOptional = ordersRepository.findById(id);
+
+        if (ordersOptional.isPresent()) {
+            ordersRepository.deleteById(id);
+            return true;
+        } else {
+            return false;
+        }
     }
 }

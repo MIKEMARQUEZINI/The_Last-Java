@@ -57,4 +57,29 @@ public class ProductService {
         return listProductDTO;
     }
 
+    public ProductDTO updateProduct(String id, ProductDTO productDTO) {
+        Product productExists = productRepository.findById(id).
+                orElse(null);
+        if(productExists != null){
+            productExists.setName(productDTO.getName());
+            productExists.setDescriptions(productDTO.getDescriptions());
+            productExists.setPrice(productDTO.getPrice());
+
+            return convertProduct(productRepository.save(productExists));
+        } else {
+            return null;
+        }
+
+    }
+
+    public boolean deleteProduct(String id) {
+        Optional<Product> productOptional = productRepository.findById(id);
+
+        if (productOptional.isPresent()) {
+            productRepository.deleteById(id);
+            return true;
+        } else {
+            return false;
+        }
+    }
 }
