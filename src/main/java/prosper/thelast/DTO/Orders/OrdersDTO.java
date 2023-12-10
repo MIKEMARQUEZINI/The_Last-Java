@@ -2,13 +2,15 @@ package prosper.thelast.DTO.Orders;
 
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 
 public class OrdersDTO {
     private String id;
-    @NotBlank(message = "Enter the product name")
+    @NotBlank(message = "Enter the orders for product name")
     private String productName;
+    @Size(min = 10, message = "the pointSales must contain at least 10 characters ")
     private String pointSales;
-    @DecimalMin(value = "0", message = "the price must be greater than 0")
+    @DecimalMin(value = "0", message = "the quantity must be greater than 0")
     private int quantity;
     private Number latitude;
     private Number longitude;
