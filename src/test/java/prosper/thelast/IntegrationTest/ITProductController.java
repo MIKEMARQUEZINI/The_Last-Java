@@ -53,9 +53,75 @@ public class ITProductController {
 
     }
 
+    @Test
+    public void registerProductNullIT() throws Exception {
+        createProductDTONameNull();
+        productJson = objectMapper.writeValueAsString(productDTO);
+        createProductNaBaseNullError();
+
+    }
+
+    @Test
+    public void searchProductByNameNotFoundIT() throws Exception {
+        createProduct();
+        productDTO.setName("Different name!");
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders
+                        .get("/api/products/search/{name}",
+                                productDTO.getName()))
+                .andExpect(status().isNotFound())
+                .andReturn();
+        String ret = result.getResponse().getContentAsString();
+        assert ret.isEmpty();
+
+    }
+
+    @Test
+    public void deleteOneProductIT() throws Exception {
+        createProduct();
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders
+                        .delete("/api/products/{id}", productDTOReturns.getId()))
+                .andExpect(status().isOk())
+                .andReturn();
+        String ret = result.getResponse().getContentAsString();
+        assert ret.contains("Successfully deleted");
+
+    }
+
+
+    private void createProduct() throws Exception {
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders
+                        .post("/api/products")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(productJson))
+                .andExpect(status().isOk())
+                .andReturn();
+        productDTOReturns = objectMapper.readValue(result.getResponse().getContentAsString(), ProductDTO.class);
+
+    }
+
+    private void createProductNaBaseNullError() throws Exception {
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders
+                        .post("/api/products")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(productJson))
+                .andExpect(status().isBadRequest())
+                .andReturn();
+        String responseBody = result.getResponse().getContentAsString();
+
+        assertThat(responseBody, containsString("the price must be greater than 0"));
+        assertThat(responseBody, containsString("Enter the product name"));
+
+    }
+
     private void createProductForTest() throws JsonProcessingException {
         createProductDTO();
         productJson = objectMapper.writeValueAsString(productDTO);
+    }
+
+    private void createProductDTONameNull() {
+        productDTO = new ProductDTO();
+        productDTO.setDescriptions("ProductIT description");
+        productDTO.setPrice(0);
     }
 
     private void createProductDTO() {
@@ -64,9 +130,6 @@ public class ITProductController {
         productDTO.setPrice(10.00F);
         productDTO.setDescriptions("in the palm of your hand");
     }
-
-
-
     private void createProductBaseIT() throws Exception {
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders
                 .post("/api/products")
