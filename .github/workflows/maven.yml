@@ -10,7 +10,7 @@ name: Build on Push
 
 on:
   push:
-    branches: [ "develop" ]
+    branches: [ "develop" , "Test" ]
   pull_request:
     branches: [ "main" ]
 
@@ -34,7 +34,7 @@ jobs:
           cache: maven
       - name: Build and test
         run: |
-          ./mvw clean verify -Spring.data.mongodb.host=localhost -Spring.data.mongodb.port=27017
+          ./mvnw clean verify -Dspring.data.mongodb.host=localhost -Dspring.data.mongodb.port=27017
         env:
           RABBITMQ_URI: ${{ secrets.RABBITMQ_URI }}
 

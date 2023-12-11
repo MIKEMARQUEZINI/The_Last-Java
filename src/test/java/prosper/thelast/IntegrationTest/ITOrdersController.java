@@ -109,7 +109,7 @@ public class ITOrdersController {
     private void createOrdersDTONameNull() {
         ordersDTO = new OrdersDTO();
         ordersDTO.setPointSales("Orders Point Sales");
-        ordersDTO.setQuantity(0);
+        ordersDTO.setQuantity(1);
     }
 
     private void createOrdersForTest() throws JsonProcessingException {
